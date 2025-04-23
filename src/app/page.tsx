@@ -1,4 +1,3 @@
-  
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { Transformer } from "markmap-lib";
@@ -65,202 +64,101 @@ export default function MindMapEditor() {
 
   const renderMap = () => {
     const { root } = new Transformer().transform(wrappedMarkdown);
-    if (svgRef.current) {
-      svgRef.current.innerHTML = "";
+    if (!svgRef.current) return;
 
-      Markmap.create(
-  svgRef.current,
-  {
-    style: {
-      fontFamily: "Times New Roman",
-    },
-  },
-  root
-);
+    svgRef.current.innerHTML = "";
 
-      const styleTag = document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "style"
-      );
-      styleTag.textContent = `
-        .markmap-node text tspan {
-          font-size: ${fontSize}px;
-          transition: stroke 0.3s ease;
-        }
-
-        .markmap-node code {
-          font-family: 'Times New Roman', serif;
-          font-size: ${fontSize}px;
-          background: #f3f3f3;
-          padding: 2px 6px;
-          border-radius: 4px;
-          transition: border-color 0.3s ease;
-        }
-
-        .highlighted text tspan {
-          stroke: #ffa500;
-          stroke-width: 1.5px;
-          paint-order: stroke fill;
-        }
-      `;
-      svgRef.current.appendChild(styleTag);
-
-      const tooltip = document.getElementById("mindmap-tooltip");
-
-      svgRef.current.querySelectorAll(".markmap-node").forEach((node) => {
-        const textNode = node.querySelector("text");
-        const codeEl = node.querySelector("code");
-        const label = codeEl?.textContent || textNode?.textContent?.trim();
-
-        if (!label || !tooltip) return;
-
-        const description = nodeDescriptions[label];
-        if (!description) return;
-
-        node.addEventListener("mouseover", () => {
-          // highlight all children
-          highlightChildren(node as SVGGElement, true);
-
-          tooltip.innerText = description;
-          tooltip.style.opacity = "1";
-          tooltip.style.transform = "scale(1)";
-        });
-
-        // node.addEventListener("mousemove", (e: MouseEvent) => {
-        //   tooltip.style.left = `${e.clientX + 12}px`;
-        //   tooltip.style.top = `${e.clientY + 12}px`;
-        // });
-        node.addEventListener("mousemove", (e) => {
-          const mouseEvent = e as MouseEvent;
-          tooltip.style.left = `${mouseEvent.clientX + 12}px`;
-          tooltip.style.top = `${mouseEvent.clientY + 12}px`;
-        });
-
-        node.addEventListener("mouseleave", () => {
-          highlightChildren(node as SVGGElement, false);
-          tooltip.style.opacity = "0";
-          tooltip.style.transform = "scale(0.95)";
-        });
-      });
-
-      function highlightChildren(node: SVGGElement, highlight: boolean) {
-        const className = "highlighted";
-        const toggle = (n: SVGGElement) => {
-          if (highlight) {
-            n.classList.add(className);
-          } else {
-            n.classList.remove(className);
-          }
-          const childGroup = n.querySelector("g.children");
-          if (childGroup) {
-            childGroup
-              .querySelectorAll<SVGGElement>("g.markmap-node")
-              .forEach((child) => toggle(child));
-          }
-        };
-        toggle(node);
-      }
-    }
-  };
-
-useEffect(() => {
-  const renderMap = () => {
-    const { root } = new Transformer().transform(wrappedMarkdown);
-    if (svgRef.current) {
-      svgRef.current.innerHTML = "";
-
-      Markmap.create(
-        svgRef.current,
-        {
-          style: {
-            fontFamily: "Times New Roman",
-          },
+    Markmap.create(
+      svgRef.current,
+      {
+        style: {
+          fontFamily: "Times New Roman",
         },
-        root
-      );
+      },
+      root
+    );
 
-      const styleTag = document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "style"
-      );
-      styleTag.textContent = `
-        .markmap-node text tspan {
-          font-size: ${fontSize}px;
-          transition: stroke 0.3s ease;
-        }
+    const styleTag = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "style"
+    );
+    styleTag.textContent = `
+      .markmap-node text tspan {
+        font-size: ${fontSize}px;
+        transition: stroke 0.3s ease;
+      }
 
-        .markmap-node code {
-          font-family: 'Times New Roman', serif;
-          font-size: ${fontSize}px;
-          background: #f3f3f3;
-          padding: 2px 6px;
-          border-radius: 4px;
-          transition: border-color 0.3s ease;
-        }
+      .markmap-node code {
+        font-family: 'Times New Roman', serif;
+        font-size: ${fontSize}px;
+        background: #f3f3f3;
+        padding: 2px 6px;
+        border-radius: 4px;
+        transition: border-color 0.3s ease;
+      }
 
-        .highlighted text tspan {
-          stroke: #ffa500;
-          stroke-width: 1.5px;
-          paint-order: stroke fill;
-        }
-      `;
-      svgRef.current.appendChild(styleTag);
+      .highlighted text tspan {
+        stroke: #ffa500;
+        stroke-width: 1.5px;
+        paint-order: stroke fill;
+      }
+    `;
+    svgRef.current.appendChild(styleTag);
 
-      const tooltip = document.getElementById("mindmap-tooltip");
+    const tooltip = document.getElementById("mindmap-tooltip");
 
-      svgRef.current.querySelectorAll(".markmap-node").forEach((node) => {
-        const textNode = node.querySelector("text");
-        const codeEl = node.querySelector("code");
-        const label = codeEl?.textContent || textNode?.textContent?.trim();
+    svgRef.current.querySelectorAll(".markmap-node").forEach((node) => {
+      const textNode = node.querySelector("text");
+      const codeEl = node.querySelector("code");
+      const label = codeEl?.textContent || textNode?.textContent?.trim();
 
-        if (!label || !tooltip) return;
+      if (!label || !tooltip) return;
 
-        const description = nodeDescriptions[label];
-        if (!description) return;
+      const description = nodeDescriptions[label];
+      if (!description) return;
 
-        node.addEventListener("mouseover", () => {
-          highlightChildren(node as SVGGElement, true);
-          tooltip.innerText = description;
-          tooltip.style.opacity = "1";
-          tooltip.style.transform = "scale(1)";
-        });
-
-        node.addEventListener("mousemove", (e) => {
-          const mouseEvent = e as MouseEvent;
-          tooltip.style.left = `${mouseEvent.clientX + 12}px`;
-          tooltip.style.top = `${mouseEvent.clientY + 12}px`;
-        });
-
-        node.addEventListener("mouseleave", () => {
-          highlightChildren(node as SVGGElement, false);
-          tooltip.style.opacity = "0";
-          tooltip.style.transform = "scale(0.95)";
-        });
+      node.addEventListener("mouseover", () => {
+        highlightChildren(node as SVGGElement, true);
+        tooltip.innerText = description;
+        tooltip.style.opacity = "1";
+        tooltip.style.transform = "scale(1)";
       });
 
-      function highlightChildren(node: SVGGElement, highlight: boolean) {
-        const className = "highlighted";
-        const toggle = (n: SVGGElement) => {
-          if (highlight) {
-            n.classList.add(className);
-          } else {
-            n.classList.remove(className);
-          }
-          const childGroup = n.querySelector("g.children");
-          if (childGroup) {
-            childGroup
-              .querySelectorAll<SVGGElement>("g.markmap-node")
-              .forEach((child) => toggle(child));
-          }
-        };
-        toggle(node);
-      }
+      node.addEventListener("mousemove", (e) => {
+        const mouseEvent = e as MouseEvent;
+        tooltip.style.left = `${mouseEvent.clientX + 12}px`;
+        tooltip.style.top = `${mouseEvent.clientY + 12}px`;
+      });
+
+      node.addEventListener("mouseleave", () => {
+        highlightChildren(node as SVGGElement, false);
+        tooltip.style.opacity = "0";
+        tooltip.style.transform = "scale(0.95)";
+      });
+    });
+
+    function highlightChildren(node: SVGGElement, highlight: boolean) {
+      const className = "highlighted";
+      const toggle = (n: SVGGElement) => {
+        if (highlight) {
+          n.classList.add(className);
+        } else {
+          n.classList.remove(className);
+        }
+        const childGroup = n.querySelector("g.children");
+        if (childGroup) {
+          childGroup
+            .querySelectorAll<SVGGElement>("g.markmap-node")
+            .forEach((child) => toggle(child));
+        }
+      };
+      toggle(node);
     }
   };
 
-  renderMap();
-}, [wrappedMarkdown, isEditing, fontSize]);
-
+  useEffect(() => {
+    renderMap();
+  }, [wrappedMarkdown, isEditing, fontSize]);
 
   useEffect(() => {
     localStorage.setItem("mindmap-markdown", markdown);
@@ -307,7 +205,6 @@ useEffect(() => {
         isLight ? "bg-white text-black" : "bg-gray-900 text-white"
       }`}
     >
-      {/* Tooltip */}
       <div
         id="mindmap-tooltip"
         className="absolute z-50 px-3 py-2 rounded-md text-sm transition-all duration-200 ease-out opacity-0 pointer-events-none"
