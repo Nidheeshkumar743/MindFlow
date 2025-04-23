@@ -68,7 +68,15 @@ export default function MindMapEditor() {
     if (svgRef.current) {
       svgRef.current.innerHTML = "";
 
-      const mm = Markmap.create( ... );
+      const mm = Markmap.create(
+  svgRef.current,
+  {
+    style: {
+      fontFamily: "Times New Roman",
+    },
+  },
+  root
+);
 
       const styleTag = document.createElementNS(
         "http://www.w3.org/2000/svg",
