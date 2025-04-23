@@ -3638,15 +3638,7 @@ export default function MindMapEditor() {
     if (svgRef.current) {
       svgRef.current.innerHTML = "";
 
-      const mm = Markmap.create(
-        svgRef.current,
-        {
-          // style: {
-          //   fontFamily: "Times New Roman",
-          // },
-        },
-        root
-      );
+      const mm = Markmap.create( ... );
 
       const styleTag = document.createElementNS(
         "http://www.w3.org/2000/svg",
@@ -3687,7 +3679,7 @@ export default function MindMapEditor() {
         const description = nodeDescriptions[label];
         if (!description) return;
 
-        node.addEventListener("mouseover", (e) => {
+        node.addEventListener("mouseover", () => {
           // highlight all children
           highlightChildren(node as SVGGElement, true);
 
