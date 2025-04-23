@@ -72,7 +72,7 @@ export default function MindMapEditor() {
       svgRef.current,
       {
         style: {
-          font-family: "Times New Roman",
+          text:12px;
         },
       },
       root
