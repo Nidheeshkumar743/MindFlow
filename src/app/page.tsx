@@ -200,11 +200,11 @@ export default function MindMapEditor() {
   }, []);
 
   return (
-    <div
-      className={`relative w-full h-screen flex flex-col transition duration-300 ${
-        isLight ? "bg-white text-black" : "bg-gray-900 text-white"
-      }`}
-    >
+    // <div
+    //   className={`relative w-full h-screen flex flex-col transition duration-300 ${
+    //     isLight ? "bg-white text-black" : "bg-gray-900 text-white"
+    //   }`}
+    // >
       <div
         id="mindmap-tooltip"
         className="absolute z-50 px-3 py-2 rounded-md text-sm transition-all duration-200 ease-out opacity-0 pointer-events-none"
