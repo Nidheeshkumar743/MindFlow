@@ -72,7 +72,7 @@ export default function MindMapEditor() {
       svgRef.current,
       {
         style: {
-          display:block,
+          display:"block",
         },
       },
       root
