@@ -68,15 +68,7 @@ export default function MindMapEditor() {
 
     svgRef.current.innerHTML = "";
 
-    Markmap.create(
-      svgRef.current,
-      {
-        style: {
-          display: "block",
-        },
-      },
-      root
-    );
+    Markmap.create(svgRef.current,{},root);
 
     const styleTag = document.createElementNS(
       "http://www.w3.org/2000/svg",
