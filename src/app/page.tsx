@@ -219,7 +219,7 @@ export default function MindMapEditor() {
           boxShadow: isLight
             ? "0 4px 12px rgba(0, 0, 0, 0.15)"
             : "0 4px 12px rgba(255, 255, 255, 0.1)",
-          font-family: "Georgia, 'Times New Roman', serif",
+          fontFamily: "Georgia, 'Times New Roman', serif",
           border: isLight
             ? "1px solid rgba(255,255,255,0.15)"
             : "1px solid rgba(0,0,0,0.2)",
@@ -282,7 +282,7 @@ export default function MindMapEditor() {
                   ? "bg-white text-black border-gray-300"
                   : "bg-gray-800 text-white border-gray-600"
               }`}
-              style={{ font-family: "Times New Roman" }}
+              style={{ fontFamily: "Times New Roman" }}
               value={markdown}
               onChange={(e) => setMarkdown(e.target.value)}
               spellCheck={false}
